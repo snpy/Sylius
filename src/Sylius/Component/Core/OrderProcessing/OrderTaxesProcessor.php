@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\OrderProcessing;
 
 use Sylius\Component\Addressing\Matcher\ZoneMatcherInterface;
@@ -64,7 +66,7 @@ final class OrderTaxesProcessor implements OrderProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(BaseOrderInterface $order)
+    public function process(BaseOrderInterface $order): void
     {
         /** @var OrderInterface $order */
         Assert::isInstanceOf($order, OrderInterface::class);

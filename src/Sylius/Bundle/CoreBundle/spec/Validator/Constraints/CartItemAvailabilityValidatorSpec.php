@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\CoreBundle\Validator\Constraints;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\CoreBundle\Validator\Constraints\CartItemAvailability;
@@ -73,7 +76,7 @@ final class CartItemAvailabilityValidatorSpec extends ObjectBehavior
         $addCartItemCommand->getCartItem()->willReturn($orderItem);
         $orderItem->getVariant()->willReturn($productVariant);
         $orderItem->getQuantity()->willReturn(10);
-        $order->getItems()->willReturn([]);
+        $order->getItems()->willReturn(new ArrayCollection([]));
 
         $availabilityChecker->isStockSufficient($productVariant, 10)->willReturn(true);
 
@@ -96,7 +99,7 @@ final class CartItemAvailabilityValidatorSpec extends ObjectBehavior
         $addCartItemCommand->getCartItem()->willReturn($orderItem);
         $orderItem->getVariant()->willReturn($productVariant);
         $orderItem->getQuantity()->willReturn(10);
-        $order->getItems()->willReturn([]);
+        $order->getItems()->willReturn(new ArrayCollection([]));
         $productVariant->getInventoryName()->willReturn('Mug');
 
         $availabilityChecker->isStockSufficient($productVariant, 10)->willReturn(false);
@@ -124,7 +127,7 @@ final class CartItemAvailabilityValidatorSpec extends ObjectBehavior
         $orderItem->getQuantity()->willReturn(10);
         $productVariant->getInventoryName()->willReturn('Mug');
 
-        $order->getItems()->willReturn([$existingOrderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$existingOrderItem->getWrappedObject()]));
         $existingOrderItem->getQuantity()->willReturn(10);
         $existingOrderItem->equals($orderItem)->willReturn(true);
 
@@ -153,7 +156,7 @@ final class CartItemAvailabilityValidatorSpec extends ObjectBehavior
         $orderItem->getQuantity()->willReturn(10);
         $existingOrderItem->equals($orderItem)->willReturn(true);
 
-        $order->getItems()->willReturn([$existingOrderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$existingOrderItem->getWrappedObject()]));
         $existingOrderItem->getQuantity()->willReturn(10);
 
         $availabilityChecker->isStockSufficient($productVariant, 20)->willReturn(true);

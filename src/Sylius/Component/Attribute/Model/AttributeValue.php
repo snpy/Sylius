@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Attribute\Model;
 
 use Webmozart\Assert\Assert;
@@ -60,12 +62,12 @@ class AttributeValue implements AttributeValueInterface
     private $float;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
     private $datetime;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
     private $date;
 
@@ -85,7 +87,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getSubject()
+    public function getSubject(): ?AttributeSubjectInterface
     {
         return $this->subject;
     }
@@ -93,7 +95,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setSubject(AttributeSubjectInterface $subject = null)
+    public function setSubject(?AttributeSubjectInterface $subject): void
     {
         $this->subject = $subject;
     }
@@ -101,7 +103,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttribute()
+    public function getAttribute(): ?AttributeInterface
     {
         return $this->attribute;
     }
@@ -109,7 +111,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setAttribute(AttributeInterface $attribute)
+    public function setAttribute(?AttributeInterface $attribute): void
     {
         $this->attribute = $attribute;
     }
@@ -117,7 +119,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getLocaleCode()
+    public function getLocaleCode(): ?string
     {
         return $this->localeCode;
     }
@@ -125,7 +127,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocaleCode($localeCode)
+    public function setLocaleCode(?string $localeCode): void
     {
         Assert::string($localeCode);
 
@@ -149,7 +151,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->assertAttributeIsSet();
 
@@ -161,7 +163,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         $this->assertAttributeIsSet();
 
@@ -171,7 +173,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): ?string
     {
         $this->assertAttributeIsSet();
 
@@ -181,7 +183,7 @@ class AttributeValue implements AttributeValueInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): ?string
     {
         $this->assertAttributeIsSet();
 
@@ -189,113 +191,113 @@ class AttributeValue implements AttributeValueInterface
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    protected function getBoolean()
+    protected function getBoolean(): ?bool
     {
         return $this->boolean;
     }
 
     /**
-     * @param bool $boolean
+     * @param bool|null $boolean
      */
-    protected function setBoolean($boolean)
+    protected function setBoolean(?bool $boolean): void
     {
         $this->boolean = $boolean;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    protected function getText()
+    protected function getText(): ?string
     {
         return $this->text;
     }
 
     /**
-     * @param string $text
+     * @param string|null $text
      */
-    protected function setText($text)
+    protected function setText(?string $text): void
     {
         $this->text = $text;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    protected function getInteger()
+    protected function getInteger(): ?int
     {
         return $this->integer;
     }
 
     /**
-     * @param int $integer
+     * @param int|null $integer
      */
-    protected function setInteger($integer)
+    protected function setInteger(?int $integer): void
     {
         $this->integer = $integer;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    protected function getFloat()
+    protected function getFloat(): ?float
     {
         return $this->float;
     }
 
     /**
-     * @param float $float
+     * @param float|null $float
      */
-    protected function setFloat($float)
+    protected function setFloat(?float $float): void
     {
         $this->float = $float;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface|null
      */
-    protected function getDatetime()
+    protected function getDatetime(): ?\DateTimeInterface
     {
         return $this->datetime;
     }
 
     /**
-     * @param \DateTime $datetime
+     * @param \DateTimeInterface $datetime
      */
-    protected function setDatetime(\DateTime $datetime)
+    protected function setDatetime(?\DateTimeInterface $datetime): void
     {
         $this->datetime = $datetime;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface|null
      */
-    protected function getDate()
+    protected function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
     /**
-     * @param \DateTime $date
+     * @param \DateTimeInterface|null $date
      */
-    protected function setDate(\DateTime $date)
+    protected function setDate(?\DateTimeInterface $date): void
     {
         $this->date = $date;
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getJson()
+    protected function getJson(): ?array
     {
         return $this->json;
     }
 
     /**
-     * @param array $json
+     * @param array|null $json
      */
-    public function setJson(array $json)
+    protected function setJson(?array $json): void
     {
         $this->json = $json;
     }

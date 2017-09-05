@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
@@ -89,7 +91,7 @@ final class ProductAttributeContext implements Context
     public function theStoreHasAProductAttributeWithPosition($type, $name, $position)
     {
         $productAttribute = $this->createProductAttribute($type, $name);
-        $productAttribute->setPosition($position);
+        $productAttribute->setPosition((int) $position);
 
         $this->saveProductAttribute($productAttribute);
     }
@@ -191,7 +193,7 @@ final class ProductAttributeContext implements Context
         $position
     ) {
         $attribute = $this->provideProductAttribute('percent', $productAttributeName);
-        $attribute->setPosition($position);
+        $attribute->setPosition((int) $position);
         $attributeValue = $this->createProductAttributeValue(rand(1, 100) / 100, $attribute);
 
         $product->addAttribute($attributeValue);

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\StateResolver;
 
 use SM\Factory\FactoryInterface;
@@ -39,7 +41,7 @@ final class OrderStateResolver implements StateResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolve(OrderInterface $order)
+    public function resolve(OrderInterface $order): void
     {
         $stateMachine = $this->stateMachineFactory->get($order, OrderTransitions::GRAPH);
 

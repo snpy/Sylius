@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\UserBundle\Command;
 
 use Sylius\Component\User\Model\UserInterface;
@@ -25,7 +27,7 @@ class PromoteUserCommand extends AbstractRoleCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('sylius:user:promote')
@@ -47,7 +49,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function executeRoleCommand(InputInterface $input, OutputInterface $output, UserInterface $user, array $securityRoles)
+    protected function executeRoleCommand(InputInterface $input, OutputInterface $output, UserInterface $user, array $securityRoles): void
     {
         $error = false;
 

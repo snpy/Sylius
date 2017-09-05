@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\AttributeBundle\Form\Type\AttributeType;
 
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +28,7 @@ final class SelectAttributeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }
@@ -34,21 +36,21 @@ final class SelectAttributeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (is_array($options['configuration'])
             && isset($options['configuration']['multiple'])
             && !$options['configuration']['multiple']) {
             $builder->addModelTransformer(new CallbackTransformer(
-                function($array) {
+                function ($array) {
                     if (count($array) > 0) {
                         return $array[0];
                     }
 
                     return null;
                 },
-                function($string) {
-                    if (!is_null($string)) {
+                function ($string) {
+                    if (null !== $string) {
                         return [$string];
                     }
 
@@ -61,12 +63,12 @@ final class SelectAttributeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('configuration')
             ->setDefault('placeholder', 'sylius.form.attribute_type_configuration.select.choose')
-            ->setNormalizer('choices', function(Options $options){
+            ->setNormalizer('choices', function (Options $options) {
                 if (is_array($options['configuration'])
                     && isset($options['configuration']['choices'])
                     && is_array($options['configuration']['choices'])) {
@@ -78,7 +80,7 @@ final class SelectAttributeType extends AbstractType
 
                 return [];
             })
-            ->setNormalizer('multiple', function(Options $options){
+            ->setNormalizer('multiple', function (Options $options) {
                 if (is_array($options['configuration']) && isset($options['configuration']['multiple'])) {
                     return $options['configuration']['multiple'];
                 }
@@ -91,7 +93,7 @@ final class SelectAttributeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_attribute_type_select';
     }

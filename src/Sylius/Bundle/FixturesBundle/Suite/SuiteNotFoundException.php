@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Suite;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class SuiteNotFoundException extends \InvalidArgumentException
 {
@@ -20,7 +22,7 @@ final class SuiteNotFoundException extends \InvalidArgumentException
      * @param string $name
      * @param \Exception|null $previous
      */
-    public function __construct($name, \Exception $previous = null)
+    public function __construct(string $name, ?\Exception $previous = null)
     {
         parent::__construct(sprintf('Suite with name "%s" could not be found!', $name), 0, $previous);
     }

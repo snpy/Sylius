@@ -10,6 +10,8 @@ Sylius is the first decoupled eCommerce framework based on [**Symfony**](http://
 The highest quality of code, strong testing culture, built-in Agile (BDD) workflow and exceptional flexibility make it the best solution for application tailored to your business requirements. 
 Enjoy being an eCommerce Developer again!
 
+Powerful REST API allows for easy integrations and creating unique customer experience on any device.
+
 We're using full-stack Behavior-Driven-Development, with [phpspec](http://phpspec.net) and [Behat](http://behat.org)
 
 Documentation
@@ -65,7 +67,7 @@ If you want to report a bug or suggest an idea, please use [GitHub issues](https
 Community Support
 -----------------
 
-Have a question? Join our [Slack](https://slackinvite.me/to/sylius-devs) or post it on [StackOverflow](http://stackoverflow.com) tagged with "sylius". You can also join our [group on Facebook](https://www.facebook.com/groups/sylius/)!
+Have a question? Join our [Slack](http://sylius.org/slack) or post it on [StackOverflow](http://stackoverflow.com) tagged with "sylius". You can also join our [group on Facebook](https://www.facebook.com/groups/sylius/)!
 
 MIT License
 -----------

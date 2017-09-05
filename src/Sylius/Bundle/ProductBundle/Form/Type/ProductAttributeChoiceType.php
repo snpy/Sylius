@@ -9,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\ProductBundle\Form\Type;
 
 use Sylius\Bundle\AttributeBundle\Form\Type\AttributeChoiceType;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class ProductAttributeChoiceType extends AttributeChoiceType
 {
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_product_attribute_choice';
     }

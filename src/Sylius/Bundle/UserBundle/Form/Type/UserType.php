@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\UserBundle\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
@@ -29,7 +31,7 @@ abstract class UserType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username', TextType::class, [
@@ -50,12 +52,12 @@ abstract class UserType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
                 'data_class' => $this->dataClass,
-                'validation_groups' => function (FormInterface $form) {
+                'validation_groups' => function (FormInterface $form): array {
                     $data = $form->getData();
                     if ($data && !$data->getId()) {
                         $this->validationGroups[] = 'sylius_user_create';

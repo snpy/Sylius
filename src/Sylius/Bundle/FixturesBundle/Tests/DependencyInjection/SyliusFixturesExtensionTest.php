@@ -9,20 +9,22 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sylius\Bundle\FixturesBundle\DependencyInjection\SyliusFixturesExtension;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class SyliusFixturesExtensionTest extends AbstractExtensionTestCase
 {
     /**
      * @test
      */
-    public function it_does_not_crash_if_no_suite_is_configured()
+    public function it_does_not_crash_if_no_suite_is_configured(): void
     {
         $this->load();
     }
@@ -30,7 +32,7 @@ final class SyliusFixturesExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
-    public function it_registers_configured_suites()
+    public function it_registers_configured_suites(): void
     {
         $this->load(['suites' => [
             'suite_name' => [],
@@ -46,7 +48,7 @@ final class SyliusFixturesExtensionTest extends AbstractExtensionTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         return [new SyliusFixturesExtension()];
     }

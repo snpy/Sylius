@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
@@ -262,7 +264,8 @@ final class OrderContext implements Context
     /**
      * @Given /^the customer chose ("[^"]+" shipping method)$/
      */
-    public function theCustomerChoseShippingMethod(ShippingMethodInterface $shippingMethod) {
+    public function theCustomerChoseShippingMethod(ShippingMethodInterface $shippingMethod)
+    {
         /** @var OrderInterface $order */
         $order = $this->sharedStorage->get('order');
 
@@ -431,7 +434,7 @@ final class OrderContext implements Context
                 $order,
                 $channel,
                 $this->variantResolver->getVariant($product),
-                $productCount
+                (int) $productCount
             );
 
             $order->setState(OrderInterface::STATE_NEW);
@@ -637,7 +640,7 @@ final class OrderContext implements Context
             $order,
             $this->sharedStorage->get('channel'),
             $productVariant,
-            $quantity
+            (int) $quantity
         );
 
         return $order;
@@ -653,7 +656,7 @@ final class OrderContext implements Context
         OrderInterface $order,
         ChannelInterface $channel,
         ProductVariantInterface $productVariant,
-        $quantity = 1
+        int $quantity = 1
     ) {
         /** @var OrderItemInterface $item */
         $item = $this->orderItemFactory->createNew();

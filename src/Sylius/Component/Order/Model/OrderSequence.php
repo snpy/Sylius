@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Order\Model;
 
 /**
@@ -37,12 +39,12 @@ class OrderSequence implements OrderSequenceInterface
     /**
      * {@inheritdoc}
      */
-    public function getIndex()
+    public function getIndex():int
     {
         return $this->index;
     }
 
-    public function incrementIndex()
+    public function incrementIndex(): void
     {
         ++$this->index;
     }

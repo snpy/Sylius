@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Page\Shop\Checkout;
 
 use Behat\Mink\Driver\Selenium2Driver;
@@ -308,7 +310,7 @@ class CompletePage extends SymfonyPage implements CompletePageInterface
             do {
                 parent::tryToOpen($urlParameters);
                 sleep(3);
-            } while(!$this->isOpen() && microtime(true) < $end);
+            } while (!$this->isOpen() && microtime(true) < $end);
 
             return;
         }

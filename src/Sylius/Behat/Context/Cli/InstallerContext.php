@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Cli;
 
 use Behat\Behat\Context\Context;
@@ -150,7 +152,7 @@ final class InstallerContext implements Context
      */
     protected function getInputStream($input)
     {
-        $stream = fopen('php://memory', 'r+', false);
+        $stream = fopen('php://memory', 'rb+', false);
         fwrite($stream, $input);
         rewind($stream);
 

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Page\Shop\Checkout;
 
 use Sylius\Behat\Page\SymfonyPageInterface;
@@ -174,7 +176,7 @@ interface CompletePageInterface extends SymfonyPageInterface
 
     /**
      * @param string $promotionName
-     * 
+     *
      * @return string
      */
     public function getShippingPromotionDiscount($promotionName);

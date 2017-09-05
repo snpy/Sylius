@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Product\Model;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -21,10 +23,10 @@ interface ProductOptionTranslationInterface extends ResourceInterface
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
      * @param string $name
      */
-    public function setName($name);
+    public function setName(?string $name): void;
 }

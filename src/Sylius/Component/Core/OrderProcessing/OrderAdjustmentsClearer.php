@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\OrderProcessing;
 
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -34,7 +36,7 @@ final class OrderAdjustmentsClearer implements OrderProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(OrderInterface $order)
+    public function process(OrderInterface $order): void
     {
         foreach (self::$adjustmentsToRemove as $type) {
             $order->removeAdjustmentsRecursively($type);

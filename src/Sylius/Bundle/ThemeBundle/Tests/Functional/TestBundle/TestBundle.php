@@ -9,14 +9,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\ThemeBundle\Tests\Functional\TestBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class TestBundle extends Bundle
 {
-
 }

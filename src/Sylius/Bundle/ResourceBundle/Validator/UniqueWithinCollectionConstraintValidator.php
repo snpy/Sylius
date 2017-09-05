@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\ResourceBundle\Validator;
 
 use Sylius\Component\Resource\Model\CodeAwareInterface;
@@ -47,7 +49,6 @@ final class UniqueWithinCollectionConstraintValidator extends ConstraintValidato
                 ->addViolation();
 
             if (false !== $collectionOfEntitiesCodes[$checkingAttribute]) {
-
                 $this->context
                     ->buildViolation($constraint->message)
                     ->atPath(sprintf('[%d].%s', $collectionOfEntitiesCodes[$checkingAttribute], $constraint->attributePath))

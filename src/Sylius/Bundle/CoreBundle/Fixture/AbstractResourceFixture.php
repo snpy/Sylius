@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -20,7 +22,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 abstract class AbstractResourceFixture implements FixtureInterface
 {
@@ -69,7 +71,7 @@ abstract class AbstractResourceFixture implements FixtureInterface
     /**
      * @param array $options
      */
-    final public function load(array $options)
+    final public function load(array $options): void
     {
         $options = $this->optionsResolver->resolve($options);
 
@@ -114,7 +116,7 @@ abstract class AbstractResourceFixture implements FixtureInterface
     /**
      * @param ArrayNodeDefinition $resourceNode
      */
-    protected function configureResourceNode(ArrayNodeDefinition $resourceNode)
+    protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
     {
         // empty
     }

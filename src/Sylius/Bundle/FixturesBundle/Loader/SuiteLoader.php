@@ -9,13 +9,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Loader;
 
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class SuiteLoader implements SuiteLoaderInterface
 {
@@ -35,7 +37,7 @@ final class SuiteLoader implements SuiteLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load(SuiteInterface $suite)
+    public function load(SuiteInterface $suite): void
     {
         /**
          * @var FixtureInterface $fixture

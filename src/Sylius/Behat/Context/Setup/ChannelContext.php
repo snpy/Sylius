@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
@@ -178,8 +180,7 @@ final class ChannelContext implements Context
      */
     public function onThisChannelPaymentStepIsSkippedIfOnlyASinglePaymentMethodIsAvailable(
         ChannelInterface $channel
-    )
-    {
+    ) {
         $channel->setSkippingPaymentStepAllowed(true);
 
         $this->channelManager->flush();

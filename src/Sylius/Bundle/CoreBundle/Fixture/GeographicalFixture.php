@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,7 +24,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Intl\Intl;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 class GeographicalFixture extends AbstractFixture
 {
@@ -83,7 +85,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function load(array $options)
+    public function load(array $options): void
     {
         $this->loadCountriesWithProvinces($options['countries'], $options['provinces']);
         $this->loadZones($options['zones'], $this->provideZoneValidator($options));
@@ -96,7 +98,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'geographical';
     }
@@ -104,7 +106,7 @@ class GeographicalFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode)
+    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNodeBuilder = $optionsNode->children();
 

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
@@ -18,14 +20,14 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class ListenerRegistryPassTest extends AbstractCompilerPassTestCase
 {
     /**
      * @test
      */
-    public function it_registers_listeners()
+    public function it_registers_listeners(): void
     {
         $this->setDefinition('sylius_fixtures.listener_registry', new Definition());
         $this->setDefinition('acme.listener', (new Definition())->addTag('sylius_fixtures.listener'));
@@ -42,7 +44,7 @@ final class ListenerRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * {@inheritdoc}
      */
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ListenerRegistryPass());
     }

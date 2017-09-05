@@ -9,14 +9,16 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Context;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
-use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -65,12 +67,12 @@ final class SessionAndChannelBasedCartContext implements CartContextInterface
     /**
      * {@inheritdoc}
      */
-    public function getCart()
+    public function getCart(): OrderInterface
     {
         try {
             $channel = $this->channelContext->getChannel();
         } catch (ChannelNotFoundException $exception) {
-            throw new CartNotFoundException($exception);
+            throw new CartNotFoundException(null, $exception);
         }
 
         if (!$this->session->has(sprintf('%s.%s', $this->sessionKeyName, $channel->getCode()))) {

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\OrderBundle\NumberAssigner;
 
 use Sylius\Component\Order\Model\OrderInterface;
@@ -21,5 +23,5 @@ interface OrderNumberAssignerInterface
     /**
      * @param OrderInterface $order
      */
-    public function assignNumber(OrderInterface $order);
+    public function assignNumber(OrderInterface $order): void;
 }

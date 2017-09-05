@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
@@ -519,7 +521,7 @@ final class ManagingShippingMethodsContext implements Context
 
         Assert::true($this->indexPage->isSingleResourceOnPage([
             'name' => $shippingMethod->getName(),
-            'enabled' => $state,
+            'enabled' => $state ? 'Enabled' : 'Disabled',
         ]));
     }
 }

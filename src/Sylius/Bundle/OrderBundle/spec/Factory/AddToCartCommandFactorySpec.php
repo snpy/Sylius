@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\OrderBundle\Factory;
 
 use PhpSpec\ObjectBehavior;
@@ -23,12 +25,7 @@ use Sylius\Component\Order\Model\OrderItemInterface;
  */
 final class AddToCartCommandFactorySpec extends ObjectBehavior
 {
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(AddToCartCommandFactory::class);
-    }
-
-    function it_is_add_to_cart_command_factory()
+    function it_is_add_to_cart_command_factory(): void
     {
         $this->shouldImplement(AddToCartCommandFactoryInterface::class);
     }
@@ -36,7 +33,7 @@ final class AddToCartCommandFactorySpec extends ObjectBehavior
     function it_creates_add_to_cart_command_with_cart_and_cart_item(
         OrderInterface $cart,
         OrderItemInterface $cartItem
-    ) {
+    ): void {
         $this->createWithCartAndCartItem($cart, $cartItem)->shouldBeLike(new AddToCartCommand($cart->getWrappedObject(), $cartItem->getWrappedObject()));
     }
 }

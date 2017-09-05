@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Listener;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 interface AfterFixtureListenerInterface extends ListenerInterface
 {
@@ -20,5 +22,5 @@ interface AfterFixtureListenerInterface extends ListenerInterface
      * @param FixtureEvent $fixtureEvent
      * @param array $options
      */
-    public function afterFixture(FixtureEvent $fixtureEvent, array $options);
+    public function afterFixture(FixtureEvent $fixtureEvent, array $options): void;
 }

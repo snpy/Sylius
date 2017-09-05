@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\Model;
 
 /**
@@ -45,7 +47,7 @@ class ChannelPricing implements ChannelPricingInterface
     /**
      * {@inheritdoc}
      */
-    function __toString()
+    public function __toString()
     {
         return (string) $this->getPrice();
     }

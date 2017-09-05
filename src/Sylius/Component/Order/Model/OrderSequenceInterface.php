@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Order\Model;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -21,7 +23,7 @@ interface OrderSequenceInterface extends ResourceInterface
     /**
      * @return int
      */
-    public function getIndex();
+    public function getIndex(): int;
 
-    public function incrementIndex();
+    public function incrementIndex(): void;
 }

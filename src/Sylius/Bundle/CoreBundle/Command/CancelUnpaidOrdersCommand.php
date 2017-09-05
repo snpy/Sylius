@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -31,7 +33,6 @@ class CancelUnpaidOrdersCommand extends ContainerAwareCommand
             ->setDescription(
                 'Removes order that have been unpaid for a configured period. Configuration parameter - sylius_order.order_expiration_period.'
             );
-        ;
     }
 
     /**

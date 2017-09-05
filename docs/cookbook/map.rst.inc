@@ -1,9 +1,11 @@
 * :doc:`/cookbook/custom-model`
 * :doc:`/cookbook/custom-translatable-model`
 * :doc:`/cookbook/custom-email`
+* :doc:`/cookbook/disabling-order-confirmation-email`
 * :doc:`/cookbook/custom-promotion-rule`
 * :doc:`/cookbook/custom-promotion-action`
 * :doc:`/cookbook/custom-redirect-after-cart-add-action`
+* :doc:`/cookbook/disabling-guest-checkout`
 * :doc:`/cookbook/checkout`
 * :doc:`/cookbook/paypal`
 * :doc:`/cookbook/stripe`

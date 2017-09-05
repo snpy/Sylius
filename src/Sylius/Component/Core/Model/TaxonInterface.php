@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\Model;
 
 use Doctrine\Common\Collections\Collection;
@@ -19,5 +21,4 @@ use Sylius\Component\Taxonomy\Model\TaxonInterface as BaseTaxonInterface;
  */
 interface TaxonInterface extends BaseTaxonInterface, ImagesAwareInterface
 {
-
 }

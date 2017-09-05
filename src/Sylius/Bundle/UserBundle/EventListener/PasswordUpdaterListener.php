@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\UserBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -26,7 +28,7 @@ class PasswordUpdaterListener
     /**
      * @var PasswordUpdaterInterface
      */
-    protected $passwordUpdater;
+    private $passwordUpdater;
 
     /**
      * @param PasswordUpdaterInterface $passwordUpdater
@@ -37,59 +39,48 @@ class PasswordUpdaterListener
     }
 
     /**
+     * @param GenericEvent $event
+     */
+    public function genericEventUpdater(GenericEvent $event): void
+    {
+        $this->updatePassword($event->getSubject());
+    }
+
+    /**
+     * @param LifecycleEventArgs $event
+     */
+    public function prePersist(LifecycleEventArgs $event): void
+    {
+        $user = $event->getEntity();
+
+        if (!$user instanceof UserInterface) {
+            return;
+        }
+
+        $this->updatePassword($user);
+    }
+
+    /**
+     * @param LifecycleEventArgs $event
+     */
+    public function preUpdate(LifecycleEventArgs $event): void
+    {
+        $user = $event->getEntity();
+
+        if (!$user instanceof UserInterface) {
+            return;
+        }
+
+        $this->updatePassword($user);
+    }
+
+    /**
      * @param UserInterface $user
      */
-    public function updateUserPassword(UserInterface $user)
+    protected function updatePassword(UserInterface $user): void
     {
         if (null !== $user->getPlainPassword()) {
             $this->passwordUpdater->updatePassword($user);
         }
-    }
-
-    /**
-     * @param GenericEvent $event
-     */
-    public function genericEventUpdater(GenericEvent $event)
-    {
-        $user = $event->getSubject();
-
-        if (!$user instanceof UserInterface) {
-            throw new UnexpectedTypeException(
-                $user,
-                UserInterface::class
-            );
-        }
-
-        $this->updateUserPassword($user);
-    }
-
-    /**
-     * @param LifecycleEventArgs $event
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->updatePassword($event);
-    }
-
-    /**
-     * @param LifecycleEventArgs $event
-     */
-    public function preUpdate(LifecycleEventArgs $event)
-    {
-        $this->updatePassword($event);
-    }
-
-    /**
-     * @param LifecycleEventArgs $event
-     */
-    protected function updatePassword(LifecycleEventArgs $event)
-    {
-        $item = $event->getEntity();
-
-        if (!$item instanceof UserInterface) {
-            return;
-        }
-
-        $this->updateUserPassword($item);
     }
 }

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\UserBundle\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,22 +27,17 @@ use Sylius\Component\User\Model\UserInterface;
 
 final class UserLastLoginSubscriberSpec extends ObjectBehavior
 {
-    function let(ObjectManager $userManager)
+    function let(ObjectManager $userManager): void
     {
         $this->beConstructedWith($userManager, 'Sylius\Component\User\Model\UserInterface');
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(UserLastLoginSubscriber::class);
-    }
-
-    function it_is_subscriber()
+    function it_is_subscriber(): void
     {
         $this->shouldImplement(EventSubscriberInterface::class);
     }
 
-    function its_subscribed_to_events()
+    function its_subscribed_to_events(): void
     {
         $this::getSubscribedEvents()->shouldReturn([
             SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
@@ -53,11 +50,11 @@ final class UserLastLoginSubscriberSpec extends ObjectBehavior
         InteractiveLoginEvent $event,
         TokenInterface $token,
         UserInterface $user
-    ) {
+    ): void {
         $event->getAuthenticationToken()->willReturn($token);
         $token->getUser()->willReturn($user);
 
-        $user->setLastLogin(Argument::type(\DateTime::class))->shouldBeCalled();
+        $user->setLastLogin(Argument::type(\DateTimeInterface::class))->shouldBeCalled();
 
         $userManager->persist($user)->shouldBeCalled();
         $userManager->flush()->shouldBeCalled();
@@ -69,10 +66,10 @@ final class UserLastLoginSubscriberSpec extends ObjectBehavior
         ObjectManager $userManager,
         UserEvent $event,
         UserInterface $user
-    ) {
+    ): void {
         $event->getUser()->willReturn($user);
 
-        $user->setLastLogin(Argument::type(\DateTime::class))->shouldBeCalled();
+        $user->setLastLogin(Argument::type(\DateTimeInterface::class))->shouldBeCalled();
 
         $userManager->persist($user)->shouldBeCalled();
         $userManager->flush()->shouldBeCalled();
@@ -84,7 +81,7 @@ final class UserLastLoginSubscriberSpec extends ObjectBehavior
         ObjectManager $userManager,
         UserEvent $event,
         UserInterface $user
-    ) {
+    ): void {
         $this->beConstructedWith($userManager, 'FakeBundle\User\Model\User');
 
         $event->getUser()->willReturn($user);

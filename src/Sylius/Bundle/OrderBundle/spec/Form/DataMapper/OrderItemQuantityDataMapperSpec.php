@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\OrderBundle\Form\DataMapper;
 
 use PhpSpec\ObjectBehavior;
@@ -26,16 +28,11 @@ final class OrderItemQuantityDataMapperSpec extends ObjectBehavior
     function let(
         OrderItemQuantityModifierInterface $orderItemQuantityModifier,
         DataMapperInterface $propertyPathDataMapper
-    ) {
+    ): void {
         $this->beConstructedWith($orderItemQuantityModifier, $propertyPathDataMapper);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(OrderItemQuantityDataMapper::class);
-    }
-
-    function it_implements_a_data_mapper_interface()
+    function it_implements_a_data_mapper_interface(): void
     {
         $this->shouldImplement(DataMapperInterface::class);
     }
@@ -44,7 +41,7 @@ final class OrderItemQuantityDataMapperSpec extends ObjectBehavior
         DataMapperInterface $propertyPathDataMapper,
         FormInterface $form,
         OrderItemInterface $orderItem
-    ) {
+    ): void {
         $propertyPathDataMapper->mapDataToForms($orderItem, [$form])->shouldBeCalled();
 
         $this->mapDataToForms($orderItem, [$form]);

@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Listener;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 interface BeforeSuiteListenerInterface extends ListenerInterface
 {
@@ -20,5 +22,5 @@ interface BeforeSuiteListenerInterface extends ListenerInterface
      * @param SuiteEvent $suiteEvent
      * @param array $options
      */
-    public function beforeSuite(SuiteEvent $suiteEvent, array $options);
+    public function beforeSuite(SuiteEvent $suiteEvent, array $options): void;
 }

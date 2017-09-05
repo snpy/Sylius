@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Component\Order\Context;
 
 use PhpSpec\ObjectBehavior;
@@ -22,24 +24,19 @@ use Sylius\Component\Order\Model\OrderInterface;
  */
 final class CompositeCartContextSpec extends ObjectBehavior
 {
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(CompositeCartContext::class);
-    }
-
-    function it_implements_cart_context_interface()
+    function it_implements_cart_context_interface(): void
     {
         $this->shouldImplement(CartContextInterface::class);
     }
 
-    function it_throws_cart_not_found_exception_if_there_are_no_nested_cart_contexts_defined()
+    function it_throws_cart_not_found_exception_if_there_are_no_nested_cart_contexts_defined(): void
     {
         $this->shouldThrow(CartNotFoundException::class)->during('getCart');
     }
 
     function it_throws_cart_not_found_exception_if_none_of_nested_cart_context_returned_a_cart(
         CartContextInterface $cartContext
-    ) {
+    ): void {
         $cartContext->getCart()->willThrow(CartNotFoundException::class);
         $this->addContext($cartContext);
 
@@ -50,7 +47,7 @@ final class CompositeCartContextSpec extends ObjectBehavior
         CartContextInterface $firstCartContext,
         CartContextInterface $secondCartContext,
         OrderInterface $cart
-    ) {
+    ): void {
         $firstCartContext->getCart()->willThrow(CartNotFoundException::class);
         $secondCartContext->getCart()->willReturn($cart);
 
@@ -64,7 +61,7 @@ final class CompositeCartContextSpec extends ObjectBehavior
         CartContextInterface $firstCartContext,
         CartContextInterface $secondCartContext,
         OrderInterface $cart
-    ) {
+    ): void {
         $firstCartContext->getCart()->shouldNotBeCalled();
         $secondCartContext->getCart()->willReturn($cart);
 

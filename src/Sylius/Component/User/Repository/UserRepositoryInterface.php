@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\User\Repository;
 
 use Pagerfanta\PagerfantaInterface;
@@ -26,5 +28,5 @@ interface UserRepositoryInterface extends RepositoryInterface
      *
      * @return UserInterface|null
      */
-    public function findOneByEmail($email);
+    public function findOneByEmail(string $email): ?UserInterface;
 }

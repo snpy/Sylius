@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Component\Grid\Definition;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Grid\Definition\Action;
 use Sylius\Component\Grid\Definition\ActionGroup;
-use Sylius\Component\Grid\Definition\ArrayToDefinitionConverter;
 use Sylius\Component\Grid\Definition\ArrayToDefinitionConverterInterface;
 use Sylius\Component\Grid\Definition\Field;
 use Sylius\Component\Grid\Definition\Filter;
@@ -28,22 +29,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class ArrayToDefinitionConverterSpec extends ObjectBehavior
 {
-    function let(EventDispatcherInterface $eventDispatcher)
+    function let(EventDispatcherInterface $eventDispatcher): void
     {
         $this->beConstructedWith($eventDispatcher);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(ArrayToDefinitionConverter::class);
-    }
-
-    function it_implements_array_to_definition_converter()
+    function it_implements_array_to_definition_converter(): void
     {
         $this->shouldImplement(ArrayToDefinitionConverterInterface::class);
     }
 
-    function it_converts_an_array_to_grid_definition(EventDispatcherInterface $eventDispatcher)
+    function it_converts_an_array_to_grid_definition(EventDispatcherInterface $eventDispatcher): void
     {
         $grid = Grid::fromCodeAndDriverConfiguration(
             'sylius_admin_tax_category',
@@ -123,15 +119,6 @@ final class ArrayToDefinitionConverterSpec extends ObjectBehavior
             ]
         ];
 
-        $this->convert('sylius_admin_tax_category', $definitionArray)->shouldBeSameGridAs($grid);
-    }
-
-    public function getMatchers()
-    {
-        return [
-            'beSameGridAs' => function ($subject, $key) {
-                return serialize($subject) === serialize($key);
-            },
-        ];
+        $this->convert('sylius_admin_tax_category', $definitionArray)->shouldBeLike($grid);
     }
 }

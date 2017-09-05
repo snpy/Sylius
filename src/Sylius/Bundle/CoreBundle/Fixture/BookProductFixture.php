@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Fixture;
 
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
@@ -19,7 +21,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 class BookProductFixture extends AbstractFixture
 {
@@ -73,7 +75,7 @@ class BookProductFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'book_product';
     }
@@ -81,7 +83,7 @@ class BookProductFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function load(array $options)
+    public function load(array $options): void
     {
         $options = $this->optionsResolver->resolve($options);
 
@@ -96,7 +98,7 @@ class BookProductFixture extends AbstractFixture
             ]
         ]]]);
 
-        $bookGenres = ['Fiction', 'Romance', 'Thriller', 'Sports'];
+        $bookGenres = ['science_fiction' => 'Science Fiction', 'romance' => 'Romance', 'thriller' => 'Thriller', 'sports' => 'Sports'];
         $this->productAttributeFixture->load(['custom' => [
             ['name' => 'Book author', 'code' => 'book_author', 'type' => TextAttributeType::TYPE],
             ['name' => 'Book ISBN', 'code' => 'book_isbn', 'type' => TextAttributeType::TYPE],
@@ -126,7 +128,7 @@ class BookProductFixture extends AbstractFixture
                     'book_author' => $authorName,
                     'book_isbn' => $this->faker->isbn13,
                     'book_pages' => $this->faker->numberBetween(42, 1024),
-                    'book_genre' => array_keys($this->faker->randomElements($bookGenres, $this->faker->randomKey($bookGenres) + 1)),
+                    'book_genre' => $this->faker->randomElements(array_keys($bookGenres), $this->faker->numberBetween(1, count($bookGenres))),
                 ],
                 'images' => [
                     [sprintf('%s/../Resources/fixtures/%s', __DIR__, 'books.jpg'), 'main'],
@@ -141,7 +143,7 @@ class BookProductFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode)
+    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNode
             ->children()

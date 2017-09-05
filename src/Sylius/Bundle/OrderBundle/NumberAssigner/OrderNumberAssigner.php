@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\OrderBundle\NumberAssigner;
 
 use Sylius\Bundle\OrderBundle\NumberGenerator\OrderNumberGeneratorInterface;
@@ -35,7 +37,7 @@ final class OrderNumberAssigner implements OrderNumberAssignerInterface
     /**
      * {@inheritdoc}
      */
-    public function assignNumber(OrderInterface $order)
+    public function assignNumber(OrderInterface $order): void
     {
         if (null !== $order->getNumber()) {
             return;

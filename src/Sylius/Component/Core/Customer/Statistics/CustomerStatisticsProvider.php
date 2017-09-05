@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\Customer\Statistics;
 
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -79,8 +81,8 @@ final class CustomerStatisticsProvider implements CustomerStatisticsProviderInte
     private function getOrdersSummedTotal(array $orders)
     {
         return array_sum(array_map(function (OrderInterface $order) {
-                return $order->getTotal();
-            }, $orders)
+            return $order->getTotal();
+        }, $orders)
         );
     }
 

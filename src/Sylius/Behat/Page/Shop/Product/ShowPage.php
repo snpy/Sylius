@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Page\Shop\Product;
 
 use Behat\Mink\Driver\Selenium2Driver;
@@ -294,7 +296,7 @@ class ShowPage extends SymfonyPage implements ShowPageInterface
                 $isOpen = false;
                 sleep(1);
             }
-        } while(!$isOpen && microtime(true) < $end);
+        } while (!$isOpen && microtime(true) < $end);
 
         if (!$isOpen) {
             throw new UnexpectedPageException();

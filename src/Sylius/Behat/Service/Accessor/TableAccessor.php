@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Service\Accessor;
 
 use Behat\Mink\Element\NodeElement;
 use Webmozart\Assert\Assert;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class TableAccessor implements TableAccessorInterface
 {
@@ -138,16 +140,19 @@ final class TableAccessor implements TableAccessorInterface
                 return false;
             }
 
+            $searchedValue = (string)$searchedValue;
             $searchedValue = trim($searchedValue);
 
             if (0 === strpos($searchedValue, '%') && (strlen($searchedValue) - 1) === strrpos($searchedValue, '%')) {
                 $searchedValue = substr($searchedValue, 1, -2);
             }
 
-            return $this->containsSearchedValue($columns[$index]->getText(), $searchedValue);
+            if (!$this->containsSearchedValue($columns[$index]->getText(), $searchedValue)) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**

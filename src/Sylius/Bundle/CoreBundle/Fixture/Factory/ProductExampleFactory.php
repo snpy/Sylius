@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Fixture\Factory;
 
 use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;
@@ -34,7 +36,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 class ProductExampleFactory extends AbstractExampleFactory implements ExampleFactoryInterface
 {
@@ -423,10 +425,10 @@ class ProductExampleFactory extends AbstractExampleFactory implements ExampleFac
             case ProductAttributeValueInterface::STORAGE_JSON:
                 if ($productAttribute->getType() == SelectAttributeType::TYPE) {
                     if ($productAttribute->getConfiguration()['multiple']) {
-                        return array_keys($this->faker->randomElements(
-                            $productAttribute->getConfiguration()['choices'],
-                            $this->faker->randomKey($productAttribute->getConfiguration()['choices']) + 1
-                        ));
+                        return $this->faker->randomElements(
+                            array_keys($productAttribute->getConfiguration()['choices']),
+                            $this->faker->numberBetween(1, count($productAttribute->getConfiguration()['choices']))
+                        );
                     }
 
                     return [$this->faker->randomKey($productAttribute->getConfiguration()['choices'])];

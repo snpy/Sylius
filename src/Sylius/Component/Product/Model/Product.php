@@ -9,10 +9,13 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Product\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Sylius\Component\Attribute\Model\AttributeInterface;
 use Webmozart\Assert\Assert;
 use Sylius\Component\Attribute\Model\AttributeValueInterface;
 use Sylius\Component\Resource\Model\TimestampableTrait;
@@ -90,7 +93,7 @@ class Product implements ProductInterface
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -98,7 +101,7 @@ class Product implements ProductInterface
     /**
      * @param string $code
      */
-    public function setCode($code)
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }
@@ -106,7 +109,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getTranslation()->getName();
     }
@@ -114,7 +117,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName(?string $name): void
     {
         $this->getTranslation()->setName($name);
     }
@@ -122,7 +125,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->getTranslation()->getSlug();
     }
@@ -130,7 +133,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setSlug($slug = null)
+    public function setSlug(?string $slug): void
     {
         $this->getTranslation()->setSlug($slug);
     }
@@ -138,7 +141,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->getTranslation()->getDescription();
     }
@@ -146,7 +149,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setDescription($description)
+    public function setDescription(?string $description): void
     {
         $this->getTranslation()->setDescription($description);
     }
@@ -154,7 +157,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetaKeywords()
+    public function getMetaKeywords(): ?string
     {
         return $this->getTranslation()->getMetaKeywords();
     }
@@ -162,7 +165,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaKeywords($metaKeywords)
+    public function setMetaKeywords(?string $metaKeywords): void
     {
         $this->getTranslation()->setMetaKeywords($metaKeywords);
     }
@@ -170,7 +173,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetaDescription()
+    public function getMetaDescription(): ?string
     {
         return $this->getTranslation()->getMetaDescription();
     }
@@ -178,15 +181,12 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription(?string $metaDescription): void
     {
         $this->getTranslation()->setMetaDescription($metaDescription);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributes()
+    public function getAttributes(): Collection
     {
         return $this->attributes;
     }
@@ -194,7 +194,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributesByLocale($localeCode, $fallbackLocaleCode)
+    public function getAttributesByLocale(string $localeCode, string $fallbackLocaleCode): Collection
     {
         $attributes = $this->attributes->filter(
             function (ProductAttributeValueInterface $attribute) use ($fallbackLocaleCode) {
@@ -207,13 +207,13 @@ class Product implements ProductInterface
             $attributesWithFallback[] = $this->getAttributeInDifferentLocale($attribute, $localeCode);
         }
 
-        return $attributesWithFallback;
+        return new ArrayCollection($attributesWithFallback);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addAttribute(AttributeValueInterface $attribute)
+    public function addAttribute(?AttributeValueInterface $attribute): void
     {
         Assert::isInstanceOf(
             $attribute,
@@ -230,7 +230,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAttribute(AttributeValueInterface $attribute)
+    public function removeAttribute(?AttributeValueInterface $attribute): void
     {
         Assert::isInstanceOf(
             $attribute,
@@ -247,7 +247,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAttribute(AttributeValueInterface $attribute)
+    public function hasAttribute(AttributeValueInterface $attribute): bool
     {
         return $this->attributes->contains($attribute);
     }
@@ -255,7 +255,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAttributeByCodeAndLocale($attributeCode, $localeCode = null)
+    public function hasAttributeByCodeAndLocale(string $attributeCode, ?string $localeCode = null): bool
     {
         $localeCode = $localeCode ?: $this->getTranslation()->getLocale();
 
@@ -272,7 +272,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeByCodeAndLocale($attributeCode, $localeCode = null)
+    public function getAttributeByCodeAndLocale(string $attributeCode, ?string $localeCode = null): ?AttributeValueInterface
     {
         if (null === $localeCode) {
             $localeCode = $this->getTranslation()->getLocale();
@@ -291,7 +291,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasVariants()
+    public function hasVariants(): bool
     {
         return !$this->getVariants()->isEmpty();
     }
@@ -299,7 +299,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariants()
+    public function getVariants(): Collection
     {
         return $this->variants;
     }
@@ -307,7 +307,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function addVariant(ProductVariantInterface $variant)
+    public function addVariant(ProductVariantInterface $variant): void
     {
         if (!$this->hasVariant($variant)) {
             $variant->setProduct($this);
@@ -318,7 +318,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function removeVariant(ProductVariantInterface $variant)
+    public function removeVariant(ProductVariantInterface $variant): void
     {
         if ($this->hasVariant($variant)) {
             $variant->setProduct(null);
@@ -329,7 +329,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasVariant(ProductVariantInterface $variant)
+    public function hasVariant(ProductVariantInterface $variant): bool
     {
         return $this->variants->contains($variant);
     }
@@ -337,7 +337,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasOptions()
+    public function hasOptions(): bool
     {
         return !$this->options->isEmpty();
     }
@@ -345,7 +345,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getOptions()
+    public function getOptions(): Collection
     {
         return $this->options;
     }
@@ -353,7 +353,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function addOption(ProductOptionInterface $option)
+    public function addOption(ProductOptionInterface $option): void
     {
         if (!$this->hasOption($option)) {
             $this->options->add($option);
@@ -363,7 +363,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function removeOption(ProductOptionInterface $option)
+    public function removeOption(ProductOptionInterface $option): void
     {
         if ($this->hasOption($option)) {
             $this->options->removeElement($option);
@@ -373,7 +373,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasOption(ProductOptionInterface $option)
+    public function hasOption(ProductOptionInterface $option): bool
     {
         return $this->options->contains($option);
     }
@@ -381,7 +381,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function getAssociations()
+    public function getAssociations(): Collection
     {
         return $this->associations;
     }
@@ -389,7 +389,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function addAssociation(ProductAssociationInterface $association)
+    public function addAssociation(ProductAssociationInterface $association): void
     {
         if (!$this->hasAssociation($association)) {
             $this->associations->add($association);
@@ -400,7 +400,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAssociation(ProductAssociationInterface $association)
+    public function removeAssociation(ProductAssociationInterface $association): void
     {
         if ($this->hasAssociation($association)) {
             $association->setOwner(null);
@@ -411,7 +411,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAssociation(ProductAssociationInterface $association)
+    public function hasAssociation(ProductAssociationInterface $association): bool
     {
         return $this->associations->contains($association);
     }
@@ -419,7 +419,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function isSimple()
+    public function isSimple(): bool
     {
         return 1 === $this->variants->count() && !$this->hasOptions();
     }
@@ -427,7 +427,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    public function isConfigurable()
+    public function isConfigurable(): bool
     {
         return !$this->isSimple();
     }
@@ -435,7 +435,7 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    protected function createTranslation()
+    protected function createTranslation(): ProductTranslationInterface
     {
         return new ProductTranslation();
     }
@@ -443,8 +443,10 @@ class Product implements ProductInterface
     /**
      * {@inheritdoc}
      */
-    private function getAttributeInDifferentLocale(ProductAttributeValueInterface $attributeValue, $localeCode)
-    {
+    private function getAttributeInDifferentLocale(
+        ProductAttributeValueInterface $attributeValue,
+        ?string $localeCode
+    ): AttributeValueInterface {
         if (!$this->hasAttributeByCodeAndLocale($attributeValue->getCode(), $localeCode)) {
             return $attributeValue;
         }

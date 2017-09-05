@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Product\Model;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -19,12 +21,12 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 interface ProductOptionValueTranslationInterface extends ResourceInterface
 {
     /**
-     * @return string
+     * @return string|null
      */
-    public function getValue();
+    public function getValue(): ?string;
 
     /**
-     * @param string $value
+     * @param string|null $value
      */
-    public function setValue($value);
+    public function setValue(?string $value): void;
 }

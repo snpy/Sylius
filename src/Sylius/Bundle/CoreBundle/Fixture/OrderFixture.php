@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -160,7 +162,7 @@ class OrderFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function load(array $options)
+    public function load(array $options): void
     {
         $channels = $this->channelRepository->findAll();
         $customers = $this->customerRepository->findAll();
@@ -200,7 +202,7 @@ class OrderFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'order';
     }
@@ -208,7 +210,7 @@ class OrderFixture extends AbstractFixture
     /**
      * {@inheritdoc}
      */
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode)
+    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNode
             ->children()
@@ -245,8 +247,8 @@ class OrderFixture extends AbstractFixture
     {
         /** @var AddressInterface $address */
         $address = $this->addressFactory->createNew();
-        $address->setFirstname($this->faker->firstName);
-        $address->setLastname($this->faker->lastName);
+        $address->setFirstName($this->faker->firstName);
+        $address->setLastName($this->faker->lastName);
         $address->setStreet($this->faker->streetName);
         $address->setCountryCode($countryCode);
         $address->setCity($this->faker->city);

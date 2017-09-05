@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\Model;
 
 use Sylius\Component\Customer\Model\CustomerInterface as BaseCustomerInterface;
@@ -28,7 +30,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomer()
+    public function getCustomer(): ?BaseCustomerInterface
     {
         return $this->customer;
     }
@@ -36,7 +38,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomer(BaseCustomerInterface $customer = null)
+    public function setCustomer(?BaseCustomerInterface $customer): void
     {
         if ($this->customer !== $customer) {
             $this->customer = $customer;
@@ -47,14 +49,14 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->customer->getEmail();
     }
     /**
      * {@inheritdoc}
      */
-    public function setEmail($email)
+    public function setEmail(?string $email): void
     {
         $this->customer->setEmail($email);
     }
@@ -62,7 +64,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getEmailCanonical()
+    public function getEmailCanonical(): ?string
     {
         return $this->customer->getEmailCanonical();
     }
@@ -70,7 +72,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * {@inheritdoc}
      */
-    public function setEmailCanonical($emailCanonical)
+    public function setEmailCanonical(?string $emailCanonical): void
     {
         $this->customer->setEmailCanonical($emailCanonical);
     }

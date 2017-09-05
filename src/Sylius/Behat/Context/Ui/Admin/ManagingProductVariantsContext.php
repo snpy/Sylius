@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
@@ -204,7 +206,7 @@ final class ManagingProductVariantsContext implements Context
      */
     public function iSetThePositionOfTo($name, $position)
     {
-        $this->indexPage->setPosition($name, (int) $position);
+        $this->indexPage->setPosition($name, $position);
     }
 
     /**

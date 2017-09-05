@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Core\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +21,7 @@ use Sylius\Component\User\Model\UserInterface as BaseUserInterface;
 /**
  * @author Michał Marcinkowski <michal.marcinkowski@lakion.com>
  */
-class Customer extends BaseCustomer implements CustomerInterface, ProductReviewerInterface
+class Customer extends BaseCustomer implements CustomerInterface
 {
     /**
      * @var Collection|OrderInterface[]
@@ -116,15 +118,15 @@ class Customer extends BaseCustomer implements CustomerInterface, ProductReviewe
     /**
      * {@inheritdoc}
      */
-    public function getUser()
+    public function getUser(): ?BaseUserInterface
     {
         return $this->user;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function setUser(BaseUserInterface $user = null)
+    public function setUser(?BaseUserInterface $user): void
     {
         if ($this->user !== $user) {
             $this->user = $user;

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\ResourceBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -17,14 +19,14 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class FixedCollectionType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         foreach ($options['entries'] as $entry) {
             $entryType = $options['entry_type']($entry);
@@ -41,7 +43,7 @@ final class FixedCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('entries');
         $resolver->setAllowedTypes('entries', ['array', \Traversable::class]);
@@ -53,7 +55,9 @@ final class FixedCollectionType extends AbstractType
         $resolver->setRequired('entry_name');
         $resolver->setAllowedTypes('entry_name', ['callable']);
 
-        $resolver->setDefault('entry_options', function () { return []; });
+        $resolver->setDefault('entry_options', function () {
+            return [];
+        });
         $resolver->setAllowedTypes('entry_options', ['array', 'callable']);
         $resolver->setNormalizer('entry_options', $this->optionalCallableNormalizer());
     }
@@ -61,7 +65,7 @@ final class FixedCollectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'sylius_fixed_collection';
     }
@@ -69,14 +73,16 @@ final class FixedCollectionType extends AbstractType
     /**
      * @return callable
      */
-    private function optionalCallableNormalizer()
+    private function optionalCallableNormalizer(): callable
     {
         return function (Options $options, $value) {
             if (is_callable($value)) {
                 return $value;
             }
 
-            return function () use ($value) { return $value; };
+            return function () use ($value) {
+                return $value;
+            };
         };
     }
 }

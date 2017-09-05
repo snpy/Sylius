@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Command;
 
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
@@ -23,14 +25,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class FixturesLoadCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('sylius:fixtures:load')
@@ -42,7 +44,7 @@ final class FixturesLoadCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if ($input->isInteractive()) {
             /** @var QuestionHelper $questionHelper */
@@ -64,7 +66,7 @@ final class FixturesLoadCommand extends ContainerAwareCommand
     /**
      * @param InputInterface $input
      */
-    private function loadSuites(InputInterface $input)
+    private function loadSuites(InputInterface $input): void
     {
         $suiteName = $input->getArgument('suite');
         $suite = $this->getSuiteRegistry()->getSuite($suiteName);
@@ -75,7 +77,7 @@ final class FixturesLoadCommand extends ContainerAwareCommand
     /**
      * @return SuiteRegistryInterface
      */
-    private function getSuiteRegistry()
+    private function getSuiteRegistry(): SuiteRegistryInterface
     {
         return $this->getContainer()->get('sylius_fixtures.suite_registry');
     }
@@ -83,7 +85,7 @@ final class FixturesLoadCommand extends ContainerAwareCommand
     /**
      * @return SuiteLoaderInterface
      */
-    private function getSuiteLoader()
+    private function getSuiteLoader(): SuiteLoaderInterface
     {
         return $this->getContainer()->get('sylius_fixtures.suite_loader');
     }

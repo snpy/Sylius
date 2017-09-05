@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Product\Model;
 
 use Doctrine\Common\Collections\Collection;
@@ -28,32 +30,32 @@ interface ProductOptionInterface extends
     /**
      * @return int
      */
-    public function getPosition();
+    public function getPosition(): ?int;
 
     /**
      * @param int $position
      */
-    public function setPosition($position);
+    public function setPosition(?int $position): void;
 
     /**
      * @return Collection|ProductOptionValueInterface[]
      */
-    public function getValues();
+    public function getValues(): Collection;
 
     /**
      * @param ProductOptionValueInterface $optionValue
      */
-    public function addValue(ProductOptionValueInterface $optionValue);
+    public function addValue(ProductOptionValueInterface $optionValue): void;
 
     /**
      * @param ProductOptionValueInterface $optionValue
      */
-    public function removeValue(ProductOptionValueInterface $optionValue);
+    public function removeValue(ProductOptionValueInterface $optionValue): void;
 
     /**
      * @param ProductOptionValueInterface $optionValue
      *
      * @return bool
      */
-    public function hasValue(ProductOptionValueInterface $optionValue);
+    public function hasValue(ProductOptionValueInterface $optionValue): bool;
 }

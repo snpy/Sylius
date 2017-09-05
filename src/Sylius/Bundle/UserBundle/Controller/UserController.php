@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\UserBundle\Controller;
 
 use FOS\RestBundle\View\View;
@@ -21,6 +23,7 @@ use Sylius\Bundle\UserBundle\Form\Type\UserChangePasswordType;
 use Sylius\Bundle\UserBundle\Form\Type\UserRequestPasswordResetType;
 use Sylius\Bundle\UserBundle\Form\Type\UserResetPasswordType;
 use Sylius\Bundle\UserBundle\UserEvents;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Sylius\Component\User\Security\Generator\GeneratorInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -43,7 +46,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function changePasswordAction(Request $request)
+    public function changePasswordAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -76,7 +79,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function requestPasswordResetTokenAction(Request $request)
+    public function requestPasswordResetTokenAction(Request $request): Response
     {
         /** @var GeneratorInterface $generator */
         $generator = $this->container->get(sprintf('sylius.%s.token_generator.password_reset', $this->metadata->getName()));
@@ -89,7 +92,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function requestPasswordResetPinAction(Request $request)
+    public function requestPasswordResetPinAction(Request $request): Response
     {
         /** @var GeneratorInterface $generator */
         $generator = $this->container->get(sprintf('sylius.%s.pin_generator.password_reset', $this->metadata->getName()));
@@ -103,7 +106,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function resetPasswordAction(Request $request, $token)
+    public function resetPasswordAction(Request $request, string $token): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
         /** @var UserInterface $user */
@@ -145,7 +148,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function verifyAction(Request $request, $token)
+    public function verifyAction(Request $request, string $token): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
         $redirectRoute = $this->getSyliusAttribute($request, 'redirect', null);
@@ -164,12 +167,12 @@ class UserController extends ResourceController
             return $this->redirectToRoute($redirectRoute);
         }
 
-        $eventDispatcher = $this->container->get('event_dispatcher');
-        $eventDispatcher->dispatch(UserEvents::PRE_EMAIL_VERIFICATION, new GenericEvent($user));
-
         $user->setVerifiedAt(new \DateTime());
         $user->setEmailVerificationToken(null);
         $user->enable();
+
+        $eventDispatcher = $this->container->get('event_dispatcher');
+        $eventDispatcher->dispatch(UserEvents::PRE_EMAIL_VERIFICATION, new GenericEvent($user));
 
         $this->manager->flush();
 
@@ -190,7 +193,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    public function requestVerificationTokenAction(Request $request)
+    public function requestVerificationTokenAction(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
         $redirectRoute = $this->getSyliusAttribute($request, 'redirect', 'referer');
@@ -231,7 +234,7 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    protected function prepareResetPasswordRequest(Request $request, GeneratorInterface $generator, $senderEvent)
+    protected function prepareResetPasswordRequest(Request $request, GeneratorInterface $generator, string $senderEvent): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -239,7 +242,7 @@ class UserController extends ResourceController
         $formType = $this->getSyliusAttribute($request, 'form', UserRequestPasswordResetType::class);
         $form = $this->createResourceForm($configuration, $formType, $passwordReset);
         $template = $this->getSyliusAttribute($request, 'template', null);
-        if (!$configuration->isHtmlRequest()) {
+        if ($configuration->isHtmlRequest()) {
             Assert::notNull($template, 'Template is not configured.');
         }
 
@@ -281,10 +284,9 @@ class UserController extends ResourceController
     }
 
     /**
-     * @param string $type
-     * @param string $message
+     * {@inheritdoc}
      */
-    protected function addFlash($type, $message)
+    protected function addFlash($type, $message): void
     {
         $translator = $this->container->get('translator');
         $this->container->get('session')->getFlashBag()->add($type, $translator->trans($message, [], 'flashes'));
@@ -293,17 +295,20 @@ class UserController extends ResourceController
     /**
      * @param RequestConfiguration $configuration
      * @param string $type
-     * @param mixed $resource
+     * @param object $object
      *
      * @return FormInterface
      */
-    protected function createResourceForm(RequestConfiguration $configuration, $type, $resource)
-    {
+    protected function createResourceForm(
+        RequestConfiguration $configuration,
+        string $type,
+        $object
+    ): FormInterface {
         if (!$configuration->isHtmlRequest()) {
-            return $this->container->get('form.factory')->createNamed('', $type, $resource, ['csrf_protection' => false]);
+            return $this->container->get('form.factory')->createNamed('', $type, $object, ['csrf_protection' => false]);
         }
 
-        return $this->container->get('form.factory')->create($type, $resource);
+        return $this->container->get('form.factory')->create($type, $object);
     }
 
     /**
@@ -311,9 +316,9 @@ class UserController extends ResourceController
      * @param RequestConfiguration $configuration
      * @param UserInterface $user
      *
-     * @return RedirectResponse
+     * @return Response
      */
-    protected function handleExpiredToken(Request $request, RequestConfiguration $configuration, UserInterface $user)
+    protected function handleExpiredToken(Request $request, RequestConfiguration $configuration, UserInterface $user): Response
     {
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
@@ -337,8 +342,11 @@ class UserController extends ResourceController
      * @param UserInterface $user
      * @param string $senderEvent
      */
-    protected function handleResetPasswordRequest(GeneratorInterface $generator, UserInterface $user, $senderEvent)
-    {
+    protected function handleResetPasswordRequest(
+        GeneratorInterface $generator,
+        UserInterface $user,
+        string $senderEvent
+    ): void {
         $user->setPasswordResetToken($generator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
 
@@ -359,8 +367,12 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    protected function handleResetPassword(Request $request, RequestConfiguration $configuration, UserInterface $user, $newPassword)
-    {
+    protected function handleResetPassword(
+        Request $request,
+        RequestConfiguration $configuration,
+        UserInterface $user,
+        string $newPassword
+    ): Response {
         $user->setPlainPassword($newPassword);
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
@@ -391,8 +403,12 @@ class UserController extends ResourceController
      *
      * @return Response
      */
-    protected function handleChangePassword(Request $request, RequestConfiguration $configuration, UserInterface $user, $newPassword)
-    {
+    protected function handleChangePassword(
+        Request $request,
+        RequestConfiguration $configuration,
+        UserInterface $user,
+        string $newPassword
+    ): Response {
         $user->setPlainPassword($newPassword);
 
         $dispatcher = $this->container->get('event_dispatcher');
@@ -420,10 +436,10 @@ class UserController extends ResourceController
      *
      * @return mixed
      */
-    private function getSyliusAttribute(Request $request, $attribute, $default = null)
+    private function getSyliusAttribute(Request $request, string $attribute, $default = null)
     {
         $attributes = $request->attributes->get('_sylius');
 
-        return isset($attributes[$attribute]) ? $attributes[$attribute] : $default;
+        return $attributes[$attribute] ?? $default;
     }
 }

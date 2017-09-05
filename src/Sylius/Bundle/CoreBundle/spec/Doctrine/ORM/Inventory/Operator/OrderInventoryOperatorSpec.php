@@ -9,8 +9,11 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\CoreBundle\Doctrine\ORM\Inventory\Operator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
@@ -47,7 +50,7 @@ final class OrderInventoryOperatorSpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         ProductVariantInterface $variant
     ) {
-        $order->getItems()->willReturn([$orderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
         $orderItem->getVariant()->willReturn($variant);
         $variant->isTracked()->willReturn(true);
         $variant->getVersion()->willReturn('7');
@@ -66,7 +69,7 @@ final class OrderInventoryOperatorSpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         ProductVariantInterface $variant
     ) {
-        $order->getItems()->willReturn([$orderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
         $orderItem->getVariant()->willReturn($variant);
         $variant->isTracked()->willReturn(true);
         $variant->getVersion()->willReturn('7');
@@ -85,7 +88,7 @@ final class OrderInventoryOperatorSpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         ProductVariantInterface $variant
     ) {
-        $order->getItems()->willReturn([$orderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
         $orderItem->getVariant()->willReturn($variant);
         $variant->isTracked()->willReturn(true);
         $variant->getVersion()->willReturn('7');

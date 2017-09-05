@@ -34,13 +34,6 @@ doctrine_cache:
     providers:
         sylius_rbac: "%sylius.cache%"
 
-jms_serializer:
-    metadata:
-        directories:
-            sylius-core:
-                namespace_prefix: "Sylius\\Component\\Core"
-                path: "@SyliusCoreBundle/Resources/config/serializer"
-
 knp_gaufrette:
     adapters:
         sylius_image:
@@ -100,3 +93,24 @@ twig:
     exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     globals:
         sylius: "@sylius.context.shopper"
+
+sonata_block:
+    blocks:
+        sonata.block.service.template:
+            settings:
+                address: ~
+                addresses: ~
+                cart: ~
+                customer: ~
+                form: ~
+                order: ~
+                order_item: ~
+                orders: ~
+                product: ~
+                product_review: ~
+                product_reviews: ~
+                products: ~
+                resource: ~
+                resources: ~
+                statistics: ~
+                taxon: ~

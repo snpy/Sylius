@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\FixturesBundle\Loader;
 
 use PhpSpec\ObjectBehavior;
@@ -21,26 +23,21 @@ use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class HookableSuiteLoaderSpec extends ObjectBehavior
 {
-    function let(SuiteLoaderInterface $decoratedSuiteLoader)
+    function let(SuiteLoaderInterface $decoratedSuiteLoader): void
     {
         $this->beConstructedWith($decoratedSuiteLoader);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('Sylius\Bundle\FixturesBundle\Loader\HookableSuiteLoader');
-    }
-
-    function it_implements_suite_loader_interface()
+    function it_implements_suite_loader_interface(): void
     {
         $this->shouldImplement(SuiteLoaderInterface::class);
     }
 
-    function it_delegates_suite_loading_to_the_base_loader(SuiteLoaderInterface $decoratedSuiteLoader, SuiteInterface $suite)
+    function it_delegates_suite_loading_to_the_base_loader(SuiteLoaderInterface $decoratedSuiteLoader, SuiteInterface $suite): void
     {
         $suite->getListeners()->willReturn([]);
 
@@ -53,7 +50,7 @@ final class HookableSuiteLoaderSpec extends ObjectBehavior
         SuiteLoaderInterface $decoratedSuiteLoader,
         SuiteInterface $suite,
         BeforeSuiteListenerInterface $beforeSuiteListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($beforeSuiteListener) {
             yield $beforeSuiteListener->getWrappedObject() => [];
         });
@@ -69,7 +66,7 @@ final class HookableSuiteLoaderSpec extends ObjectBehavior
         SuiteLoaderInterface $decoratedSuiteLoader,
         SuiteInterface $suite,
         AfterSuiteListenerInterface $afterSuiteListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($afterSuiteListener) {
             yield $afterSuiteListener->getWrappedObject() => [];
         });
@@ -86,7 +83,7 @@ final class HookableSuiteLoaderSpec extends ObjectBehavior
         SuiteInterface $suite,
         BeforeSuiteListenerInterface $beforeSuiteListener,
         AfterSuiteListenerInterface $afterSuiteListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($beforeSuiteListener, $afterSuiteListener) {
             yield $beforeSuiteListener->getWrappedObject() => ['listener_option1' => 'listener_value1'];
             yield $afterSuiteListener->getWrappedObject() => ['listener_option2' => 'listener_value2'];

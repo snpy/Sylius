@@ -9,13 +9,16 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\FixturesBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use Sylius\Bundle\FixturesBundle\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +27,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function suite_can_have_one_fixture()
+    public function suite_can_have_one_fixture(): void
     {
         $this->assertConfigurationIsValid(
             [['suites' => ['suite' => ['fixtures' => ['fixture' => null]]]]],
@@ -35,7 +38,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function multiple_suites_are_allowed()
+    public function multiple_suites_are_allowed(): void
     {
         $this->assertConfigurationIsValid(
             [['suites' => [
@@ -49,7 +52,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function consecutive_configurations_can_add_suites()
+    public function consecutive_configurations_can_add_suites(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -71,7 +74,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function suite_can_have_multiple_fixtures()
+    public function suite_can_have_multiple_fixtures(): void
     {
         $this->assertConfigurationIsValid(
             [['suites' => ['suite' => ['fixtures' => [
@@ -85,7 +88,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function consecutive_configurations_can_remove_a_fixture_from_the_suite()
+    public function consecutive_configurations_can_remove_a_fixture_from_the_suite(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -107,7 +110,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function consecutive_configurations_can_add_fixtures_to_the_suite()
+    public function consecutive_configurations_can_add_fixtures_to_the_suite(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -129,7 +132,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function all_fixture_options_from_consecutive_configurations_are_collected()
+    public function all_fixture_options_from_consecutive_configurations_are_collected(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -150,7 +153,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function fixture_options_are_not_replaced_implicitly()
+    public function fixture_options_are_not_replaced_implicitly(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -171,7 +174,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function fixtures_options_are_an_array()
+    public function fixtures_options_are_an_array(): void
     {
         $this->assertPartialConfigurationIsInvalid(
             [['suites' => ['suite' => ['fixtures' => ['fixture' => [
@@ -191,7 +194,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function listeners_options_are_an_array()
+    public function listeners_options_are_an_array(): void
     {
         $this->assertPartialConfigurationIsInvalid(
             [['suites' => ['suite' => ['listeners' => ['listener' => [
@@ -211,7 +214,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function fixtures_options_may_contain_nested_arrays()
+    public function fixtures_options_may_contain_nested_arrays(): void
     {
         $this->assertProcessedConfigurationEquals(
             [['suites' => ['suite' => ['fixtures' => ['fixture' => [
@@ -228,7 +231,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function listeners_options_may_contain_nested_arrays()
+    public function listeners_options_may_contain_nested_arrays(): void
     {
         $this->assertProcessedConfigurationEquals(
             [['suites' => ['suite' => ['listeners' => ['listener' => [
@@ -244,7 +247,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function fixtures_can_be_aliased_with_different_names()
+    public function fixtures_can_be_aliased_with_different_names(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -264,7 +267,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function consecutive_configurations_can_add_aliased_fixtures_to_the_suite()
+    public function consecutive_configurations_can_add_aliased_fixtures_to_the_suite(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -286,7 +289,7 @@ final class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function getConfiguration()
+    protected function getConfiguration(): ConfigurationInterface
     {
         return new Configuration();
     }

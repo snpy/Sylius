@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Bundle\CoreBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,7 +43,7 @@ final class TaxonsToCodesTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if (!is_array($value) && !is_null($value)) {
+        if (!is_array($value) && null !== $value) {
             throw new UnexpectedTypeException($value, 'array');
         }
 

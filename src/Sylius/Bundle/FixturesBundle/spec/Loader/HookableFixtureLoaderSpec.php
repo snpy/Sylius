@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace spec\Sylius\Bundle\FixturesBundle\Loader;
 
 use PhpSpec\ObjectBehavior;
@@ -22,21 +24,16 @@ use Sylius\Bundle\FixturesBundle\Loader\HookableFixtureLoader;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
 /**
- * @author Kamil Kokot <kamil.kokot@lakion.com>
+ * @author Kamil Kokot <kamil@kokot.me>
  */
 final class HookableFixtureLoaderSpec extends ObjectBehavior
 {
-    function let(FixtureLoaderInterface $decoratedFixtureLoader)
+    function let(FixtureLoaderInterface $decoratedFixtureLoader): void
     {
         $this->beConstructedWith($decoratedFixtureLoader);
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType('Sylius\Bundle\FixturesBundle\Loader\HookableFixtureLoader');
-    }
-
-    function it_implements_fixture_loader_interface()
+    function it_implements_fixture_loader_interface(): void
     {
         $this->shouldImplement(FixtureLoaderInterface::class);
     }
@@ -45,7 +42,7 @@ final class HookableFixtureLoaderSpec extends ObjectBehavior
         FixtureLoaderInterface $decoratedFixtureLoader,
         SuiteInterface $suite,
         FixtureInterface $fixture
-    ) {
+    ): void {
         $suite->getListeners()->willReturn([]);
 
         $decoratedFixtureLoader->load($suite, $fixture, ['fixture_option' => 'fixture_value'])->shouldBeCalled();
@@ -58,7 +55,7 @@ final class HookableFixtureLoaderSpec extends ObjectBehavior
         SuiteInterface $suite,
         FixtureInterface $fixture,
         BeforeFixtureListenerInterface $beforeFixtureListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($beforeFixtureListener) {
             yield $beforeFixtureListener->getWrappedObject() => [];
         });
@@ -75,7 +72,7 @@ final class HookableFixtureLoaderSpec extends ObjectBehavior
         SuiteInterface $suite,
         FixtureInterface $fixture,
         AfterFixtureListenerInterface $afterFixtureListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($afterFixtureListener) {
             yield $afterFixtureListener->getWrappedObject() => [];
         });
@@ -93,7 +90,7 @@ final class HookableFixtureLoaderSpec extends ObjectBehavior
         FixtureInterface $fixture,
         BeforeFixtureListenerInterface $beforeFixtureListener,
         AfterFixtureListenerInterface $afterFixtureListener
-    ) {
+    ): void {
         $suite->getListeners()->will(function () use ($beforeFixtureListener, $afterFixtureListener) {
             yield $beforeFixtureListener->getWrappedObject() => ['listener_option1' => 'listener_value1'];
             yield $afterFixtureListener->getWrappedObject() => ['listener_option2' => 'listener_value2'];

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sylius\Component\Grid\Filter;
 
 use Sylius\Component\Grid\Data\DataSourceInterface;
@@ -20,23 +22,23 @@ use Sylius\Component\Grid\Filtering\FilterInterface;
  */
 final class StringFilter implements FilterInterface
 {
-    const NAME = 'string';
+    public const NAME = 'string';
 
-    const TYPE_EQUAL = 'equal';
-    const TYPE_NOT_EQUAL = 'not_equal';
-    const TYPE_EMPTY = 'empty';
-    const TYPE_NOT_EMPTY = 'not_empty';
-    const TYPE_CONTAINS = 'contains';
-    const TYPE_NOT_CONTAINS = 'not_contains';
-    const TYPE_STARTS_WITH = 'starts_with';
-    const TYPE_ENDS_WITH = 'ends_with';
-    const TYPE_IN = 'in';
-    const TYPE_NOT_IN = 'not_in';
+    public const TYPE_EQUAL = 'equal';
+    public const TYPE_NOT_EQUAL = 'not_equal';
+    public const TYPE_EMPTY = 'empty';
+    public const TYPE_NOT_EMPTY = 'not_empty';
+    public const TYPE_CONTAINS = 'contains';
+    public const TYPE_NOT_CONTAINS = 'not_contains';
+    public const TYPE_STARTS_WITH = 'starts_with';
+    public const TYPE_ENDS_WITH = 'ends_with';
+    public const TYPE_IN = 'in';
+    public const TYPE_NOT_IN = 'not_in';
 
     /**
      * {@inheritdoc}
      */
-    public function apply(DataSourceInterface $dataSource, $name, $data, array $options)
+    public function apply(DataSourceInterface $dataSource, string $name, $data, array $options): void
     {
         $expressionBuilder = $dataSource->getExpressionBuilder();
 
@@ -83,10 +85,16 @@ final class StringFilter implements FilterInterface
      * @param string $field
      * @param mixed $value
      *
-     * @return ExpressionBuilderInterface
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
-    private function getExpression(ExpressionBuilderInterface $expressionBuilder, $type, $field, $value)
-    {
+    private function getExpression(
+        ExpressionBuilderInterface $expressionBuilder,
+        string $type,
+        string $field,
+        $value
+    ) {
         switch ($type) {
             case self::TYPE_EQUAL:
                 return $expressionBuilder->equals($field, $value);
